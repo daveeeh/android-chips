@@ -23,6 +23,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$ANDROID_GRADLE_VERSION"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
     }
 }
 
