@@ -76,7 +76,7 @@ public class RecipientAlternatesAdapter extends CursorAdapter {
 
     public static void getMatchingRecipients(Context context, BaseRecipientAdapter adapter,
             ArrayList<String> inAddresses, Account account, RecipientMatchCallback callback) {
-        getMatchingRecipients(context, adapter, inAddresses, QUERY_TYPE_EMAIL, account, callback);
+        getMatchingRecipients(context, adapter, inAddresses, adapter.getQueryType(), account, callback);
     }
 
     /**
