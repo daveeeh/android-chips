@@ -1202,7 +1202,7 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
      * should search for a token to turn into a chip.
      * @return If a chip was created from a real contact.
      */
-    private boolean commitDefault() {
+    public boolean commitDefault() {
         // If there is no tokenizer, don't try to commit.
         if (mTokenizer == null) {
             return false;
