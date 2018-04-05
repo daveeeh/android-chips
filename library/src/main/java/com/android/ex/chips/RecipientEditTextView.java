@@ -167,6 +167,8 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
 
     private String mCopyAddress;
 
+    private boolean mCopyDialogEnabled;
+
     /**
      * Used with {@link #mAlternatesPopup}. Handles clicks to alternate addresses for a
      * selected chip.
@@ -2869,8 +2871,10 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
                 startDrag(currentChip);
             } else {
                 mShowActionMode = false;
-                // Copy the selected chip email address.
-                showCopyDialog(currentChip.getEntry().getDestination());
+                if (mCopyDialogEnabled) {
+                    // Copy the selected chip email address.
+                    showCopyDialog(currentChip.getEntry().getDestination());
+                }
             }
         } else {
             // Show Android's Cut/Paste box
@@ -2917,6 +2921,13 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
      */
     public void enableDrag() {
         mDragEnabled = true;
+    }
+
+    /**
+     * Enables showing a copy dialog on long press for a chip.
+     */
+    public void enableCopyDialog(boolean enable) {
+        mCopyDialogEnabled = enable;
     }
 
     /**
