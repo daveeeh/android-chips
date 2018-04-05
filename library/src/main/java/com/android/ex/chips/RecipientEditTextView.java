@@ -169,6 +169,8 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
 
     private boolean mCopyDialogEnabled;
 
+    private boolean mEditChipsEnabled = true;
+
     /**
      * Used with {@link #mAlternatesPopup}. Handles clicks to alternate addresses for a
      * selected chip.
@@ -2150,6 +2152,10 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
     }
 
     private boolean shouldShowEditableText(DrawableRecipientChip currentChip) {
+        if (!mEditChipsEnabled) {
+            return false;
+        }
+
         long contactId = currentChip.getContactId();
         return contactId == RecipientEntry.INVALID_CONTACT
                 || (!isPhoneQuery() && contactId == RecipientEntry.GENERATED_CONTACT);
@@ -2422,16 +2428,16 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
                         DrawableRecipientChip.class);
                 if (repl.length > 0) {
                     // There is a chip there! Just remove it.
+                    DrawableRecipientChip toDelete = repl[0];
                     Editable editable = getText();
                     // Add the separator token.
-                    int tokenStart = mTokenizer.findTokenStart(editable, selStart);
-                    int tokenEnd = mTokenizer.findTokenEnd(editable, tokenStart);
-                    tokenEnd = tokenEnd + 1;
-                    if (tokenEnd > editable.length()) {
-                        tokenEnd = editable.length();
+                    int deleteStart = editable.getSpanStart(toDelete);
+                    int deleteEnd = editable.getSpanEnd(toDelete) + 1;
+                    if (deleteEnd > editable.length()) {
+                        deleteEnd = editable.length();
                     }
-                    editable.delete(tokenStart, tokenEnd);
-                    getSpannable().removeSpan(repl[0]);
+                    editable.removeSpan(toDelete);
+                    editable.delete(deleteStart, deleteEnd);
                 }
             } else if (count > before) {
                 if (mSelectedChip != null
@@ -2925,9 +2931,20 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
 
     /**
      * Enables showing a copy dialog on long press for a chip.
+     *
+     * By default, disabled.
      */
     public void enableCopyDialog(boolean enable) {
         mCopyDialogEnabled = enable;
+    }
+
+    /**
+     * Enables editing of generated and invalid chips.
+     *
+     * By default, enabled.
+     */
+    public void enableChipEditing(boolean enable) {
+        mEditChipsEnabled = enable;
     }
 
     /**
