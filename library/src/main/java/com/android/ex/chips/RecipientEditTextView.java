@@ -1108,7 +1108,11 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
         }
     }
 
-    private static boolean isPhoneNumber(String number) {
+    private boolean isPhoneNumber(String number) {
+        if (mValidator != null) {
+            return mValidator.isValid(number);
+        }
+
         // TODO: replace this function with libphonenumber's isPossibleNumber (see
         // PhoneNumberUtil). One complication is that it requires the sender's region which
         // comes from the CurrentCountryIso. For now, let's just do this simple match.
