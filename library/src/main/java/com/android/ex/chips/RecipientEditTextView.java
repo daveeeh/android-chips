@@ -2669,6 +2669,12 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
             return entries.get(tokenizeAddress(destination).toLowerCase());
         }
 
+        // if we have matching key, use it without any change
+        if (entries.containsKey(destination)) {
+            return entries.get(destination);
+        }
+
+        // if not exact matching is found, try to remove unnecessary symbols
         for (Entry<String, RecipientEntry> entry : entries.entrySet()) {
             String entryKey = entry.getKey().replaceAll("\\s+", "");
             if (entryKey.equals(destination)) {
