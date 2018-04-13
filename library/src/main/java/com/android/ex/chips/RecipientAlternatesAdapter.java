@@ -102,8 +102,14 @@ public class RecipientAlternatesAdapter extends CursorAdapter {
         StringBuilder bindString = new StringBuilder();
         // Create the "?" string and set up arguments.
         for (int i = 0; i < addressesSize; i++) {
-            Rfc822Token[] tokens = Rfc822Tokenizer.tokenize(inAddresses.get(i).toLowerCase());
-            addresses.add(tokens.length > 0 ? tokens[0].getAddress() : inAddresses.get(i));
+            final String address = inAddresses.get(i);
+            if (addressType == QUERY_TYPE_EMAIL){
+                Rfc822Token[] tokens = Rfc822Tokenizer.tokenize(address.toLowerCase());
+                addresses.add(tokens.length > 0 ? tokens[0].getAddress() : address);
+            } else {
+                addresses.add(address);
+            }
+
             bindString.append("?");
             if (i < addressesSize - 1) {
                 bindString.append(",");
