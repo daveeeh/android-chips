@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.Manifest.permission;
 import android.accounts.Account;
 import android.app.Dialog;
 import android.content.ClipData;
@@ -38,6 +39,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -59,6 +61,7 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Layout;
@@ -1598,8 +1601,21 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
         }
     }
 
+    /**
+     * @return true, if the {@link permission#READ_CONTACTS} is granted; otherwise, false.
+     */
+    private boolean areContactsPermissionsGranted() {
+        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
+                getContext(), permission.READ_CONTACTS);
+    }
+
     private void showAlternates(final DrawableRecipientChip currentChip,
             final ListPopupWindow alternatesPopup, final int width) {
+        if (!areContactsPermissionsGranted()) {
+            // no alternatives, if we're prohibited from accessing the contacts
+            return;
+        }
+
         new AsyncTask<Void, Void, ListAdapter>() {
             @Override
             protected ListAdapter doInBackground(final Void... params) {
