@@ -29,7 +29,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.*;
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.text.*;
 import android.text.method.QwertyKeyListener;
 import android.text.style.ImageSpan;
