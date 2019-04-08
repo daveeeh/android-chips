@@ -4,6 +4,8 @@ android {
     compileSdkVersion Integer.parseInt(project.COMPILE_SDK)
 
     defaultConfig {
+        minSdkVersion Integer.parseInt(project.MIN_SDK)
+        targetSdkVersion Integer.parseInt(project.TARGET_SDK)
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
     }
