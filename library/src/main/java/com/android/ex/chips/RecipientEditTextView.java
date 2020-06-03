@@ -651,8 +651,7 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
      * the layout direction is LTR or RTL.
      */
     private boolean shouldPositionAvatarOnRight() {
-        final boolean isRtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 ?
-                getLayoutDirection() == LAYOUT_DIRECTION_RTL : false;
+        final boolean isRtl = getLayoutDirection() == LAYOUT_DIRECTION_RTL;
         final boolean assignedPosition = mAvatarPosition == AVATAR_POSITION_END;
         // If in Rtl mode, the position should be flipped.
         return isRtl ? !assignedPosition : assignedPosition;
@@ -1593,11 +1592,7 @@ public class RecipientEditTextView extends MultiAutoCompleteTextView implements
     private int putOffsetInRange(final float x, final float y) {
         final int offset;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            offset = getOffsetForPosition(x, y);
-        } else {
-            offset = supportGetOffsetForPosition(x, y);
-        }
+        offset = getOffsetForPosition(x, y);
 
         return putOffsetInRange(offset);
     }
